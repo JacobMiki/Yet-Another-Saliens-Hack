@@ -1,8 +1,13 @@
 //==UserScript==
 // @name          	Yet Another Saliens Hack
 // @description     Hack for Saliens Steam Sale 2018
-// @author			JacobMiki
+// @author          JacobMiki
+// @namespace       http://github.com/JacobMiki
+//
+// @updateURL		    https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
+// @downloadURL		  https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
 // @version         20180623_1200
+// @supportURL      https://github.com/JacobMiki/Yet-Another-Saliens-Hack/issues
 //
 // @license         MIT License
 //
@@ -11,7 +16,7 @@
 // @include         https://steamcommunity.com/saliengame/play
 // @include         https://steamcommunity.com/saliengame/play/
 //
-// @run-at			document-start|document-end
+// @run-at          document-start|document-end
 //
 // @grant           unsafeWindow
 //
