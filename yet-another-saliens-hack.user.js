@@ -6,7 +6,7 @@
 //
 // @updateURL		    https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
 // @downloadURL		  https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
-// @version         20180623_1200
+// @version         20180623_1230
 // @supportURL      https://github.com/JacobMiki/Yet-Another-Saliens-Hack/issues
 //
 // @license         MIT License
@@ -48,14 +48,17 @@ let ajaxPending = false;
     this.Die(true);
   }
 
-  CGame.prototype.Start_orig = CGame.prototype.Start;
-  CGame.prototype.Start = function () {
-    setTimeout(() => this.Start(), 1000);
-  };
+  const startIntervalHandle = setInterval(() => {
+    if (gGame.m_State instanceof CBootState && gGame.m_State.button && gServer.m_WebAPI) {
+      gGame.m_State.button.click();
+      clearInterval(startIntervalHandle);
+    }
+  }, 2000);
 
   CBootState.prototype.OnLoadComplete_orig = CBootState.prototype.OnLoadComplete;
   CBootState.prototype.OnLoadComplete = function (loader, resources) {
     this.OnLoadComplete_orig(loader, resources);
+    clearInterval(startIntervalHandle);
     const startGame = () => {
       if (gServer.m_WebAPI) {
         gGame.m_State.button.click();
