@@ -6,7 +6,7 @@
 //
 // @updateURL		    https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
 // @downloadURL		  https://github.com/JacobMiki/Yet-Another-Saliens-Hack/raw/master/yet-another-saliens-hack.user.js
-// @version         20180623_1230
+// @version         20180623_1245
 // @supportURL      https://github.com/JacobMiki/Yet-Another-Saliens-Hack/issues
 //
 // @license         MIT License
@@ -26,6 +26,11 @@
 let ajaxPending = false;
 
 (() => {
+  if (typeof unsafeWindow !== "undefined")
+    unsafeWindow.requestAnimationFrame = c => {
+      setTimeout(c, 1000 / 60);
+    };
+
   GameLoadError = function () {
     setTimeout(function () {
       if (typeof unsafeWindow !== "undefined")
@@ -275,14 +280,20 @@ function CZoneInfoBox() {
 
 CZoneInfoBox.prototype = Object.create(CUIBox.prototype);
 
+const AB = "ABCDEFGHIJKL";
 CZoneInfoBox.prototype.SetTile = function (tileData) {
+  console.log(tileData);
+  const pos = tileData.zone_position;
+  const posX = pos % k_NumMapTilesW;
+  const posY = (pos - posX) / k_NumMapTilesW + 1;
+  const tileName = `${AB[posX]}${posY}`;
   if (tileData.captured) {
     this.removeChild(this.m_InfoBoxUnclaimedContainer);
     this.addChild(this.m_InfoBoxClaimedContainer);
 
     this.SetSize(186, 80);
     this.m_InfoBoxProgress.SetValue(1.0);
-    this.SetTitleText('Claimed'.toUpperCase());
+    this.SetTitleText(tileName + ' Claimed'.toUpperCase());
 
     this._RefreshInfoTeamImages(tileData);
   } else {
@@ -294,7 +305,7 @@ CZoneInfoBox.prototype.SetTile = function (tileData) {
     var progress = tileData.capture_progress;
     this.m_InfoBoxProgress.SetValue(progress);
 
-    this.SetTitleText('Unclaimed'.toUpperCase());
+    this.SetTitleText(tileName + ' Unclaimed'.toUpperCase());
 
     switch (tileData.difficulty) {
       case 3:
